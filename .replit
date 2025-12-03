@@ -3,9 +3,10 @@ compile = "make -s"
 run = "./main"
 entrypoint = "main.cpp"
 hidden = ["main", "**/*.o", "**/*.d", ".ccls-cache", "Makefile"]
+modules = ["cpp-clang14", "c-clang14", "nix", "cpp-clang"]
 
 [nix]
-channel = "stable-24_05"
+channel = "stable-25_05"
 
 [gitHubImport]
 requiredFiles = [".replit", "replit.nix", ".ccls-cache"]
@@ -70,3 +71,26 @@ start = "ccls"
 
 [agent]
 expertMode = true
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run Book Algorithms"
+
+[[workflows.workflow]]
+name = "Run Book Algorithms"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./main"
+
+[workflows.workflow.metadata]
+outputType = "console"
