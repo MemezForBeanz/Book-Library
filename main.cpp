@@ -4,10 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "greedy_algorithm.h"
+#include "dynamic_programming.h"
 #include "nlohmann/json.hpp" // jsoncpp library for JSON parsing
 #include "sort_algorithms.h"
-
 using json = nlohmann::json;
 
 std::vector<Book> load_books(const std::string &filename) {
@@ -45,7 +44,6 @@ std::vector<Book> load_books(const std::string &filename) {
   }
   return books;
 }
-
 void display_books(const std::vector<Book> &books, int count) {
   for (int i = 0; i < std::min(count, static_cast<int>(books.size())); ++i) {
     std::cout << books[i].title << " (Rating: " << books[i].rating << ")\n";
@@ -54,28 +52,28 @@ void display_books(const std::vector<Book> &books, int count) {
 
 int main() {
   auto books = load_books("data/books.json");
-  // Demonstrate Greedy Algorithm
-  std::cout
-      << "\n---- Chapter 10: Greedy Algorithm - Book Selection Problem ----"
-      << std::endl;
-  std::cout
-      << "Selecting books to maximize rating while staying under page limit..."
-      << std::endl;
-  size_t max_pages = 1000;
-
-  auto selection = greedy_book_selection(books, max_pages);
-  std::cout << "\nSelected " << selection.selected_books.size()
-            << " books totaling " << selection.total_pages << " pages"
-            << std::endl;
-
-  if (!selection.selected_books.empty()) {
-    std::cout << "Average rating of selection: "
-              << selection.total_rating / selection.selected_books.size()
-              << std::endl;
-    std::cout << "\nTop 10 selected books:" << std::endl;
-    display_books(selection.selected_books, 10);
-  } else {
-    std::cout << "No books selected.\n";
+  if (books.empty()) {
+    std::cout << "No books loaded.\n";
+    return 0;
   }
-  return 0;
+  // Demonstrate Dynamic Programming
+  std::cout << "\n---- Chapter 11: Dynamic Programming - Title Similarity Analysis ----" << std::endl;
+  std::cout << "Finding the most similar book titles using Levenshtein distance...\n"
+            << std::endl;
+  auto similar = find_similar_titles(books);
+  std::cout << "Analyzed first 100 books from the dataset\n" << std::endl;
+  std::cout << "Title 1: " << similar.title1 << std::endl;
+  std::cout << "Title 2: " << similar.title2 << std::endl;
+  std::cout << "Normalized Levenshtein distance: "
+            << similar.normalized_distance << std::endl;
+  // Display part of the dynamic programming matrix
+  std::cout << "\nDynamic Programming Matrix (first 5x5):" << std::endl;
+  for (size_t i = 0; i < std::min(size_t(5), similar.matrix.size()); ++i) {
+    for (size_t j = 0; j < std::min(size_t(5), similar.matrix[i].size()); ++j) {
+      std::cout << similar.matrix[i][j] << " ";
+    }
+    std::cout << std::endl;
+  }
+
+    return 0;
 }
