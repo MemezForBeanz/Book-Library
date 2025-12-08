@@ -9,9 +9,10 @@
 #include  <algorithm>
 
 struct Book {
-    std::string title;
-    std::string author;
-    double rating;
+  std::string title;
+  std::string author;
+  double rating;
+  int pages;
 };
 
 void  selection_sort(std::vector<Book>& books)  {
