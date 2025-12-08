@@ -15,7 +15,7 @@ struct Book {
   int pages;
 };
 
-void  selection_sort(std::vector<Book>& books)  {
+inline void  selection_sort(std::vector<Book>& books)  {
 
   int  n = books.size();
 
