@@ -8,12 +8,10 @@
 
 #include  <algorithm>
 
-struct  Book  {
-
-  std::string  title;
-
-  double  rating;
-
+struct Book {
+    std::string title;
+    std::string author;
+    double rating;
 };
 
 void  selection_sort(std::vector<Book>& books)  {
